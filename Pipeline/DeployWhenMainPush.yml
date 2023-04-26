@@ -1,0 +1,38 @@
+variables:
+- template: DefaultVariableGroup.yml
+
+- name: releaseState
+  value: final
+
+trigger: 
+  batch: false
+  branches:
+    include:
+    - main
+    exclude:
+    - release/*
+    - develop
+    - feature/*
+    - fix/*
+
+pr: none
+
+resources:
+  repositories:
+    - repository: Mangoslab.Infrastructure
+      type: github
+      name: MANGOSLABCoLtd/Mangoslab.Infrastructure
+      ref: refs/tags/v2.1.0
+      endpoint: MANGOSLABCoLtd
+
+stages:
+- template: Pipeline/Stage/PublishTestResults.yml@Mangoslab.Infrastructure
+  parameters:
+    nugetConfigPath: ${{variables.nugetConfigPath}}
+    minimumCodeCoverage: ${{variables.minimumCodeCoverage}}
+
+- template: Pipeline/Stage/PublishNuGet.yml@Mangoslab.Infrastructure
+  parameters:
+    releaseState: ${{variables.releaseState}}
+    codeSigningCertHash: $(mangoslab-com)
+    codeSigningCertPassword: $(codeSigningCertificatePassword)

@@ -1,0 +1,29 @@
+variables:
+- template: DefaultVariableGroup.yml
+
+trigger: none
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+    - develop
+    - feature/*
+    - fix/*
+    exclude:
+    - main
+    - release/*
+
+resources:
+  repositories:
+    - repository: Mangoslab.Infrastructure
+      type: github
+      name: MANGOSLABCoLtd/Mangoslab.Infrastructure
+      ref: refs/tags/v2.1.0
+      endpoint: MANGOSLABCoLtd
+
+stages:
+- template: Pipeline/Stage/PublishTestResults.yml@Mangoslab.Infrastructure
+  parameters:
+    nugetConfigPath: ${{variables.nugetConfigPath}}
+    minimumCodeCoverage: ${{variables.minimumCodeCoverage}}

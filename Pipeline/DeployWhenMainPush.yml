@@ -28,6 +28,7 @@ resources:
 stages:
 - template: Pipeline/Stage/PublishTestResults.yml@Mangoslab.Infrastructure
   parameters:
+    checkoutSubmodules: ${{variables.checkoutSubmodules}}
     nugetConfigPath: ${{variables.nugetConfigPath}}
     minimumCodeCoverage: ${{variables.minimumCodeCoverage}}
 

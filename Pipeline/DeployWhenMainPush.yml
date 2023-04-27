@@ -22,7 +22,7 @@ resources:
     - repository: Mangoslab.Infrastructure
       type: github
       name: MANGOSLABCoLtd/Mangoslab.Infrastructure
-      ref: refs/tags/v2.1.0
+      ref: refs/tags/v2.2.0
       endpoint: MANGOSLABCoLtd
 
 stages:

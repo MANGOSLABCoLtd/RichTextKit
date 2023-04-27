@@ -12,4 +12,3 @@ static class BuildInfo
 {
 	public static DateTime Date = new DateTime(2023, 4, 27, 16, 43, 24, DateTimeKind.Utc);
 }
-	

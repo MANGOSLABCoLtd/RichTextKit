@@ -34,6 +34,7 @@ stages:
 
 - template: Pipeline/Stage/PublishNuGet.yml@Mangoslab.Infrastructure
   parameters:
+    checkoutSubmodules: ${{variables.checkoutSubmodules}}
     releaseState: ${{variables.releaseState}}
     codeSigningCertHash: $(mangoslab-com)
     codeSigningCertPassword: $(codeSigningCertificatePassword)

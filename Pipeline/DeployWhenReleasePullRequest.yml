@@ -22,17 +22,19 @@ resources:
     - repository: Mangoslab.Infrastructure
       type: github
       name: MANGOSLABCoLtd/Mangoslab.Infrastructure
-      ref: refs/tags/v2.1.0
+      ref: refs/tags/v2.3.2
       endpoint: MANGOSLABCoLtd
 
 stages:
 - template: Pipeline/Stage/PublishTestResults.yml@Mangoslab.Infrastructure
   parameters:
+    checkoutSubmodules: ${{variables.checkoutSubmodules}}
     nugetConfigPath: ${{variables.nugetConfigPath}}
     minimumCodeCoverage: ${{variables.minimumCodeCoverage}}
 
 - template: Pipeline/Stage/PublishNuGet.yml@Mangoslab.Infrastructure
   parameters:
+    checkoutSubmodules: ${{variables.checkoutSubmodules}}
     nugetConfigPath: ${{variables.nugetConfigPath}}
     releaseState: ${{variables.releaseState}}
     codeSigningCertHash: $(mangoslab-com)

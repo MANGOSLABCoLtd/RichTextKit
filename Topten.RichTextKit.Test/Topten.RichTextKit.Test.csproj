@@ -1,6 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../buildtools/Topten.props" />
+  <Import Project="../version.props" />
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateFullPaths>True</GenerateFullPaths>
+    <OutputPath>../Build/$(Configuration)/$(MSBuildProjectName)</OutputPath>
+    <IntermediateOutputPath>../Build/$(Configuration)/$(MSBuildProjectName)/obj</IntermediateOutputPath>
+    <PackageOutputPath>../Build/$(Configuration)</PackageOutputPath>
+    <NoWarn>436</NoWarn>
+    <Authors>Topten Software</Authors>
+    <Company>Topten Software</Company>
+    <TtsCodeSign>False</TtsCodeSign> 
+    <TtsInheritDoc>True</TtsInheritDoc>
+    <DocumentationFile>$(OutputPath)/$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../version.cs" Link="version.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <None Include="../buildtools/nuget-icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\**" />
+  </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,6 +43,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

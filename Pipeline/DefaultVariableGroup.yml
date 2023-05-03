@@ -7,3 +7,6 @@ variables:
 
 - name: nugetConfigPath
   value: $(Build.Repository.LocalPath)/nuget.config
+
+- name: checkoutSubmodules
+  value: 'recursive'

@@ -3,8 +3,8 @@
 using System;
 using System.Reflection;
 [assembly: AssemblyCopyright("Copyright © 2019-2022 Topten Software. All Rights Reserved")]
-[assembly: AssemblyVersion("0.4.165.1")]
-[assembly: AssemblyFileVersion("0.4.165.1")]
+[assembly: AssemblyVersion("0.4.166")]
+[assembly: AssemblyFileVersion("0.4.166")]
 [assembly: AssemblyCompany("MANGOSLAB Co.,Ltd.")]
 [assembly: AssemblyProduct("MANGOSLABCoLtd.RichTextKit")]
 

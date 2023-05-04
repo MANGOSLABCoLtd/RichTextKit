@@ -34,7 +34,7 @@ namespace Topten.RichTextKit.Test
 
              // Read the test file
             var location = System.IO.Path.GetDirectoryName(typeof(BidiTest).Assembly.Location);
-            var lines = System.IO.File.ReadAllLines(System.IO.Path.Combine(location, "TestData\\BidiTest.txt"));
+            var lines = System.IO.File.ReadAllLines(System.IO.Path.Combine(location, "TestData", "BidiTest.txt"));
 
             var bidi = new Bidi();
 

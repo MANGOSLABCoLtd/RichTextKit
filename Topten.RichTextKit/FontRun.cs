@@ -493,6 +493,10 @@ namespace Topten.RichTextKit
                 paint.IsAntialias = true;
                 paint.LcdRenderText = false;
 
+                // Set Italic
+                if (Style.FontItalic)
+                    paint.TextSkewX = -0.3443276f;
+
                 unsafe
                 {
                     fixed (ushort* pGlyphs = Glyphs.Underlying)

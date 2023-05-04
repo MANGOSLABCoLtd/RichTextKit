@@ -22,7 +22,7 @@ resources:
     - repository: Mangoslab.Infrastructure
       type: github
       name: MANGOSLABCoLtd/Mangoslab.Infrastructure
-      ref: refs/tags/v2.2.1
+      ref: refs/tags/v2.3.2
       endpoint: MANGOSLABCoLtd
 
 stages:
@@ -34,6 +34,7 @@ stages:
 
 - template: Pipeline/Stage/PublishNuGet.yml@Mangoslab.Infrastructure
   parameters:
+    checkoutSubmodules: ${{variables.checkoutSubmodules}}
     releaseState: ${{variables.releaseState}}
     codeSigningCertHash: $(mangoslab-com)
     codeSigningCertPassword: $(codeSigningCertificatePassword)

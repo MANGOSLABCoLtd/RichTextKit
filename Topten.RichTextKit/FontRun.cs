@@ -29,6 +29,8 @@ namespace Topten.RichTextKit
     /// </summary>
     public class FontRun
     {
+        private const float ITALIC_SKEW_X = 0.3443276f;
+
         /// <summary>
         /// The kind of font run.
         /// </summary>
@@ -493,10 +495,6 @@ namespace Topten.RichTextKit
                 paint.IsAntialias = true;
                 paint.LcdRenderText = false;
 
-                // Set Italic
-                if (Style.FontItalic)
-                    paint.TextSkewX = -0.3443276f;
-
                 unsafe
                 {
                     fixed (ushort* pGlyphs = Glyphs.Underlying)
@@ -637,6 +635,7 @@ namespace Topten.RichTextKit
                 // Work out font variant adjustments
                 float glyphScale = 1;
                 float glyphVOffset = 0;
+                float xPosition = 0;
                 if (Style.FontVariant == FontVariant.SuperScript)
                 {
                     glyphScale = 0.65f;
@@ -683,7 +682,10 @@ namespace Topten.RichTextKit
 
                         // Set Italic
                         if (Style.FontItalic)
-                            _font.SkewX = -0.3443276f;
+                        {
+                            _font.SkewX = -1 * ITALIC_SKEW_X;
+                            xPosition = this.Style.FontSize * ITALIC_SKEW_X;
+                        }
 
                         // Create the SKTextBlob (if necessary)
                         if (_textBlob == null)
@@ -779,10 +781,10 @@ namespace Topten.RichTextKit
                                 float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
                                 ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paintHalo);
                             }
-                            ctx.Canvas.DrawText(_textBlob, 0, 0, paintHalo);
+                            ctx.Canvas.DrawText(_textBlob, xPosition, 0, paintHalo);
                         }
 
-                        ctx.Canvas.DrawText(_textBlob, 0, 0, paint);
+                        ctx.Canvas.DrawText(_textBlob, xPosition, 0, paint);
                     }
                 }
 

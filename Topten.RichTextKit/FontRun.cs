@@ -684,7 +684,7 @@ namespace Topten.RichTextKit
                         if (Style.FontItalic)
                         {
                             _font.SkewX = -1 * ITALIC_SKEW_X;
-                            xPosition = this.Style.FontSize * ITALIC_SKEW_X;
+                            xPosition = (Line.Height - Line.BaseLine) * ITALIC_SKEW_X;
                         }
 
                         // Create the SKTextBlob (if necessary)

@@ -28,8 +28,6 @@ namespace Topten.RichTextKit
     /// </summary>
     public class TextBlock : StyledText
     {
-        private const float ITALIC_SKEW_X = 0.2679492f;
-
         /// <summary>
         /// Constructor
         /// </summary>

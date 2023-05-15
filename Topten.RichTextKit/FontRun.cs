@@ -29,7 +29,7 @@ namespace Topten.RichTextKit
     /// </summary>
     public class FontRun
     {
-        private const float ITALIC_SKEW_X = 0.3443276f;
+        private const float ITALIC_SKEW_X = 0.2679492f;
 
         /// <summary>
         /// The kind of font run.
@@ -520,6 +520,25 @@ namespace Topten.RichTextKit
             }
         }
 
+        private bool IsPreviousRunItalic()
+        {
+            if (Line.Runs[0].Start == this.Start && Line.Runs[0].End == this.End)
+                return false;
+
+            for (int i = 1; i < Line.Runs.Count; i++)
+            {
+                if (Line.Runs[i].Start == this.Start && Line.Runs[i].End == this.End)
+                {
+                    if (Line.Runs[i-1].Style.FontItalic == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private float GetUnderlineYPos()
         {
             float curruntYCoord = Line.YCoord;
@@ -635,7 +654,6 @@ namespace Topten.RichTextKit
                 // Work out font variant adjustments
                 float glyphScale = 1;
                 float glyphVOffset = 0;
-                float xPosition = 0;
                 if (Style.FontVariant == FontVariant.SuperScript)
                 {
                     glyphScale = 0.65f;
@@ -684,7 +702,6 @@ namespace Topten.RichTextKit
                         if (Style.FontItalic)
                         {
                             _font.SkewX = -1 * ITALIC_SKEW_X;
-                            xPosition = (Line.Height - Line.BaseLine) * ITALIC_SKEW_X;
                         }
 
                         // Create the SKTextBlob (if necessary)
@@ -781,10 +798,10 @@ namespace Topten.RichTextKit
                                 float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
                                 ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paintHalo);
                             }
-                            ctx.Canvas.DrawText(_textBlob, xPosition, 0, paintHalo);
+                            ctx.Canvas.DrawText(_textBlob, 0, 0, paintHalo);
                         }
 
-                        ctx.Canvas.DrawText(_textBlob, xPosition, 0, paint);
+                        ctx.Canvas.DrawText(_textBlob, 0, 0, paint);
                     }
                 }
 

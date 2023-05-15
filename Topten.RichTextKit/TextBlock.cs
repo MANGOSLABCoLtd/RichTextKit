@@ -28,7 +28,7 @@ namespace Topten.RichTextKit
     /// </summary>
     public class TextBlock : StyledText
     {
-        private const float ITALIC_SKEW_X = 0.3443276f;
+        private const float ITALIC_SKEW_X = 0.2679492f;
 
         /// <summary>
         /// Constructor
@@ -1408,11 +1408,8 @@ namespace Topten.RichTextKit
                 // Get the font run, update it's position
                 // and move to next
                 var fr = _fontRuns[frIndex];
-                float extendedFrontWidthByItalic = 0;
-                if (fr.Style.FontItalic)
-                    extendedFrontWidthByItalic = fr.TextHeight * ITALIC_SKEW_X;
-                fr.XCoord = (consumedWidth == 0) ? extendedFrontWidthByItalic : consumedWidth;
-                consumedWidth += fr.Width + extendedFrontWidthByItalic;
+                fr.XCoord = consumedWidth;
+                consumedWidth += fr.Width;
 
                 float totalWidthToThisBreakPoint = 0;
 
@@ -1431,10 +1428,7 @@ namespace Topten.RichTextKit
                         break;
 
                     // Do we need to break
-                    float extendedBackWidthByItalic = 0;
-                    if (fr.Style.FontItalic)
-                        extendedBackWidthByItalic = fr.TextHeight * ITALIC_SKEW_X;
-                    totalWidthToThisBreakPoint = fr.XCoord + fr.LeadingWidth(lbr.PositionMeasure) + extendedBackWidthByItalic;
+                    totalWidthToThisBreakPoint = fr.XCoord + fr.LeadingWidth(lbr.PositionMeasure);
                     if (totalWidthToThisBreakPoint > _maxWidthResolved)
                     {
                         breakLine = true;
@@ -1659,12 +1653,6 @@ namespace Topten.RichTextKit
         {
             float x = 0;
             float trailingWhitespaceWidth = 0;
-            float extendedFrontWidthByItalic = 0;
-            float extendedBackWidthByItalic = 0;
-            if (line.Runs[0].Style.FontItalic)
-                extendedFrontWidthByItalic = line.Runs[0].TextHeight * ITALIC_SKEW_X;
-            if (line.Runs[line.Runs.Count - 1].Style.FontItalic)
-                extendedBackWidthByItalic = line.Runs[line.Runs.Count - 1].TextHeight * ITALIC_SKEW_X;
             for (int i = 0; i < line.Runs.Count; i++)
             {
                 var fr = line.Runs[i];
@@ -1699,7 +1687,7 @@ namespace Topten.RichTextKit
             }
 
             // Store content width
-            line.Width = x - trailingWhitespaceWidth + extendedFrontWidthByItalic + extendedBackWidthByItalic;
+            line.Width = x - trailingWhitespaceWidth;
 
             return 0;
         }

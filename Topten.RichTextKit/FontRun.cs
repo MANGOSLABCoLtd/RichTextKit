@@ -700,7 +700,7 @@ namespace Topten.RichTextKit
 
                         // Set Italic
                         if (Style.FontItalic)
-                            _font.SkewX = Direction == TextDirection.LTR ? - 1 : 1 * ITALIC_SKEW_X;
+                            _font.SkewX = (Direction == TextDirection.LTR ? - 1 : 1) * ITALIC_SKEW_X;
 
                         // Create the SKTextBlob (if necessary)
                         if (_textBlob == null)

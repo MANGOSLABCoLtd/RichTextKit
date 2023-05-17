@@ -29,6 +29,8 @@ namespace Topten.RichTextKit
     /// </summary>
     public class FontRun
     {
+        private const float ITALIC_SKEW_X = 0.2679492f;
+
         /// <summary>
         /// The kind of font run.
         /// </summary>
@@ -518,6 +520,51 @@ namespace Topten.RichTextKit
             }
         }
 
+        private bool IsPreviousRunItalic()
+        {
+            if (Line.Runs[0].Start == this.Start && Line.Runs[0].End == this.End)
+                return false;
+
+            for (int i = 1; i < Line.Runs.Count; i++)
+            {
+                if (Line.Runs[i].Start == this.Start && Line.Runs[i].End == this.End)
+                {
+                    if (Line.Runs[i-1].Style.FontItalic == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private float GetUnderlineYPos()
+        {
+            float curruntYCoord = Line.YCoord;
+            float minBaseLine = Line.BaseLine;
+
+            // Find minimum baseline from previous Line
+            TextLine prevLine = Line.PreviousLine;
+            while (prevLine != null && prevLine.YCoord == curruntYCoord)
+            {
+                if (prevLine.BaseLine > minBaseLine)
+                    minBaseLine = prevLine.BaseLine;
+                prevLine = prevLine.PreviousLine;
+            }
+
+            // Find minimum baseline from next Line
+            TextLine nextLine = Line.NextLine;
+            while (nextLine != null && nextLine.YCoord == curruntYCoord)
+            {
+                if (nextLine.BaseLine > minBaseLine)
+                    minBaseLine = nextLine.BaseLine;
+                nextLine = nextLine.PreviousLine;
+            }
+
+            return curruntYCoord + minBaseLine * 1.1f;
+        }
+
         /// <summary>
         /// Paint this font run
         /// </summary>
@@ -647,6 +694,14 @@ namespace Topten.RichTextKit
                         _font.Edging = ctx.Options.Edging;
                         _font.Subpixel = ctx.Options.SubpixelPositioning;
 
+                        // Set Bold
+                        if (Style.FontWeight > _font.Typeface.FontWeight)
+                            _font.Embolden = true;
+
+                        // Set Italic
+                        if (Style.FontItalic)
+                            _font.SkewX = (Direction == TextDirection.LTR ? - 1 : 1) * ITALIC_SKEW_X;
+
                         // Create the SKTextBlob (if necessary)
                         if (_textBlob == null)
                         {
@@ -665,7 +720,7 @@ namespace Topten.RichTextKit
                         if (Style.Underline != UnderlineStyle.None && RunKind == FontRunKind.Normal)
                         {
                             // Work out underline metrics
-                            float underlineYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.UnderlinePosition ?? 0);
+                            float underlineYPos = GetUnderlineYPos();
                             if (underlineYPos < Line.YCoord + Line.BaseLine + 1)
                                 underlineYPos = Line.YCoord + Line.BaseLine + 1;
                             paint.StrokeWidth = _font.Metrics.UnderlineThickness ?? 1;
@@ -751,10 +806,10 @@ namespace Topten.RichTextKit
                 // Paint strikethrough above text
                 if (Style.StrikeThrough != StrikeThroughStyle.None && RunKind == FontRunKind.Normal)
                 {
-                    paint.StrokeWidth = _font.Metrics.StrikeoutThickness ?? 1;
-                    if (paint.StrokeWidth < 1)
-                        paint.StrokeWidth = 1;
-                    float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
+                    paint.StrokeWidth = _font.Metrics.StrikeoutThickness ?? 3;
+                    if (paint.StrokeWidth < 3)
+                        paint.StrokeWidth = 3;
+                    float strikeYPos = Line.YCoord + Line.Height/2 + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
                     ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paint);
                 }
             }

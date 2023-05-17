@@ -96,7 +96,7 @@ namespace Topten.RichTextKit.Test
 
             // Read the test file
             var location = System.IO.Path.GetDirectoryName(typeof(LineBreakTests).Assembly.Location);
-            var lines = System.IO.File.ReadAllLines(System.IO.Path.Combine(location, "TestData\\LineBreakTest.txt"));
+            var lines = System.IO.File.ReadAllLines(System.IO.Path.Combine(location, "TestData", "LineBreakTest.txt"));
 
             // Process each line
             var tests = new List<Test>();

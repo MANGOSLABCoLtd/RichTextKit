@@ -29,6 +29,8 @@ namespace Topten.RichTextKit
     /// </summary>
     public class FontRun
     {
+        private const float ITALIC_SKEW_X = 0.2679492f;
+
         /// <summary>
         /// The kind of font run.
         /// </summary>
@@ -518,6 +520,25 @@ namespace Topten.RichTextKit
             }
         }
 
+        private bool IsPreviousRunItalic()
+        {
+            if (Line.Runs[0].Start == this.Start && Line.Runs[0].End == this.End)
+                return false;
+
+            for (int i = 1; i < Line.Runs.Count; i++)
+            {
+                if (Line.Runs[i].Start == this.Start && Line.Runs[i].End == this.End)
+                {
+                    if (Line.Runs[i-1].Style.FontItalic == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private float GetUnderlineYPos()
         {
             float curruntYCoord = Line.YCoord;
@@ -679,7 +700,7 @@ namespace Topten.RichTextKit
 
                         // Set Italic
                         if (Style.FontItalic)
-                            _font.SkewX = -0.3443276f;
+                            _font.SkewX = (Direction == TextDirection.LTR ? - 1 : 1) * ITALIC_SKEW_X;
 
                         // Create the SKTextBlob (if necessary)
                         if (_textBlob == null)

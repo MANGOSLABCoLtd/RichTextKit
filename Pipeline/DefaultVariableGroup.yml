@@ -2,7 +2,7 @@ variables:
 - group: KeyVault
 
 - name: semanticVersion
-  value: 0.4.166
+  value: 0.4.166.1
 
 # 2022.09.20 [예건] 프로젝트 초기 단계라 테스트 코드가 없습니다.
 - name: minimumCodeCoverage

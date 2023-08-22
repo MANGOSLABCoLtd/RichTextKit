@@ -8,7 +8,7 @@ trigger:
   batch: false
   tags:
     include:
-    - v*.*.*
+    - v*.*.*.*
 
 pr: none
 

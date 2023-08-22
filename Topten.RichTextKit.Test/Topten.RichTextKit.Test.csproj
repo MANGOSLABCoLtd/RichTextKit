@@ -16,6 +16,7 @@
     <TtsInheritDoc>True</TtsInheritDoc>
     <DocumentationFile>$(OutputPath)/$(AssemblyName).xml</DocumentationFile>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

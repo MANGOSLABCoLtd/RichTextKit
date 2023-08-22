@@ -560,6 +560,7 @@ namespace Topten.RichTextKit
             return false;
         }
 
+        // Added by MANGOSLAB
         private float GetUnderlineYPos()
         {
             float curruntYCoord = Line.YCoord;
@@ -722,11 +723,11 @@ namespace Topten.RichTextKit
                         _font.Edging = ctx.Options.Edging;
                         _font.Subpixel = ctx.Options.SubpixelPositioning;
 
-                        // Set Bold
+                        // Set Bold. Fixed by MANGOSLAB
                         if (Style.FontWeight > _font.Typeface.FontWeight)
                             _font.Embolden = true;
 
-                        // Set Italic
+                        // Set Italic. Fixed by MANGOSLAB
                         if (Style.FontItalic)
                             _font.SkewX = (Direction == TextDirection.LTR ? - 1 : 1) * ITALIC_SKEW_X;
 
@@ -748,6 +749,7 @@ namespace Topten.RichTextKit
                         if (Style.Underline != UnderlineStyle.None && RunKind == FontRunKind.Normal)
                         {
                             // Work out underline metrics
+                            // Fixed by MANGOSLAB
                             float underlineYPos = GetUnderlineYPos();
                             if (underlineYPos < Line.YCoord + Line.BaseLine + 1)
                                 underlineYPos = Line.YCoord + Line.BaseLine + 1;
@@ -821,6 +823,7 @@ namespace Topten.RichTextKit
                                 if (paintHalo.StrokeWidth < 1)
                                     paintHalo.StrokeWidth = 1;
                                 paintHalo.StrokeWidth += Style.HaloWidth;
+                                // Fixed by MANGOSLAB
                                 float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? Line.Height / 2 - Line.BaseLine) + glyphVOffset;
                                 ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paintHalo);
                             }
@@ -837,6 +840,7 @@ namespace Topten.RichTextKit
                     paint.StrokeWidth = _font.Metrics.StrikeoutThickness ?? 3;
                     if (paint.StrokeWidth < 3)
                         paint.StrokeWidth = 3;
+                    // Fixed by MANGOSLAB
                     float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? Line.Height / 2 - Line.BaseLine) + glyphVOffset;
                     ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paint);
                 }

@@ -821,7 +821,7 @@ namespace Topten.RichTextKit
                                 if (paintHalo.StrokeWidth < 1)
                                     paintHalo.StrokeWidth = 1;
                                 paintHalo.StrokeWidth += Style.HaloWidth;
-                                float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
+                                float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? Line.Height / 2 - Line.BaseLine) + glyphVOffset;
                                 ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paintHalo);
                             }
                             ctx.Canvas.DrawText(_textBlob, 0, glyphVOffset, paintHalo);
@@ -837,7 +837,7 @@ namespace Topten.RichTextKit
                     paint.StrokeWidth = _font.Metrics.StrikeoutThickness ?? 3;
                     if (paint.StrokeWidth < 3)
                         paint.StrokeWidth = 3;
-                    float strikeYPos = Line.YCoord + Line.Height/2 + (_font.Metrics.StrikeoutPosition ?? 0) + glyphVOffset;
+                    float strikeYPos = Line.YCoord + Line.BaseLine + (_font.Metrics.StrikeoutPosition ?? Line.Height / 2 - Line.BaseLine) + glyphVOffset;
                     ctx.Canvas.DrawLine(new SKPoint(XCoord, strikeYPos), new SKPoint(XCoord + Width, strikeYPos), paint);
                 }
             }

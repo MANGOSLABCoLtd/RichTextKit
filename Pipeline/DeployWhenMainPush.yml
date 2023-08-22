@@ -6,35 +6,32 @@ variables:
 
 trigger: 
   batch: false
-  branches:
+  tags:
     include:
-    - main
-    exclude:
-    - release/*
-    - develop
-    - feature/*
-    - fix/*
+    - v*.*.*
 
 pr: none
 
 resources:
   repositories:
-    - repository: Mangoslab.Infrastructure
+    - repository: Mangoslab.Pipeline
       type: github
-      name: MANGOSLABCoLtd/Mangoslab.Infrastructure
-      ref: refs/tags/v2.3.2
+      name: MANGOSLABCoLtd/Mangoslab.Pipeline
+      ref: refs/tags/v4.4.0
       endpoint: MANGOSLABCoLtd
 
 stages:
-- template: Pipeline/Stage/PublishTestResults.yml@Mangoslab.Infrastructure
+- template: Stage/PublishTestResults.yml@Mangoslab.Pipeline
   parameters:
     checkoutSubmodules: ${{variables.checkoutSubmodules}}
     nugetConfigPath: ${{variables.nugetConfigPath}}
     minimumCodeCoverage: ${{variables.minimumCodeCoverage}}
 
-- template: Pipeline/Stage/PublishNuGet.yml@Mangoslab.Infrastructure
+- template: Stage/PublishNuGet.yml@Mangoslab.Pipeline
   parameters:
     checkoutSubmodules: ${{variables.checkoutSubmodules}}
+    semanticVersion: ${{variables.semanticVersion}}
     releaseState: ${{variables.releaseState}}
-    codeSigningCertHash: $(mangoslab-com)
+    nugetConfigPath: ${{variables.nugetConfigPath}}
+#    codeSigningCertHash: $(mangoslab-com)
     codeSigningCertPassword: $(codeSigningCertificatePassword)
